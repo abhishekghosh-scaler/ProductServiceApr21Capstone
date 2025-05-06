@@ -1,5 +1,8 @@
 package com.scaler.productserviceapr21capstone.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import com.scaler.productserviceapr21capstone.dtos.CreateFakeStoreProductRequestDto;
 import com.scaler.productserviceapr21capstone.dtos.ErrorDto;
 import com.scaler.productserviceapr21capstone.dtos.ProductResponseDto;
@@ -80,6 +83,35 @@ public class ProductController
                 createFakeStoreProductRequestDto.getCategory()
         );
 
+        return ProductResponseDto.from(product);
+    }
+
+    /*
+    * NOTES for configuring POSTMAN correctly
+    * URL: http://localhost:8080/products/4
+    * METHOD: PATCH
+    * Headers: "Content-Type: application/json-patch+json"
+    * BODY:
+    * [
+            {
+                "op": "replace",
+                "path": "/price",
+                "value": 0.99
+            }
+       ]
+    *
+    *
+    * */
+    @PatchMapping(
+            path = "/products/{id}",
+            consumes = "application/json-patch+json" // REQUIRED
+    )
+    public ProductResponseDto updateProduct(
+            @PathVariable("id") long id,
+            @RequestBody JsonPatch jsonPatch
+    ) throws ProductNotFoundException, JsonPatchException, JsonProcessingException
+    {
+        Product product = productService.applyPatchToProduct(id, jsonPatch);
         return ProductResponseDto.from(product);
     }
 

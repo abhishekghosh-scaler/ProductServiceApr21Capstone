@@ -1,5 +1,10 @@
 package com.scaler.productserviceapr21capstone.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
 import com.scaler.productserviceapr21capstone.dtos.FakeStoreRequestDto;
 import com.scaler.productserviceapr21capstone.dtos.FakeStoreResponseDto;
 import com.scaler.productserviceapr21capstone.exceptions.ProductNotFoundException;
@@ -97,5 +102,33 @@ public class FakeStoreProductService implements ProductService
 
         return responseEntity.getBody().toProduct();
 
+    }
+
+    @Override
+    public Product applyPatchToProduct(long id, JsonPatch patch)
+            throws ProductNotFoundException,
+            JsonPatchException,
+            JsonProcessingException {
+
+        // Get existing product
+        Product existingProduct = getProductById(id);
+
+        // Convert Product to JSON Format
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode productNode = objectMapper.valueToTree(existingProduct);
+
+        // Apply Patch
+        JsonNode patchedNode = patch.apply(productNode);
+
+        //Convert back to Product
+        Product patchedProduct = objectMapper.treeToValue(patchedNode, Product.class);
+
+        return replaceProduct(id,
+                patchedProduct.getName(),
+                patchedProduct.getDescription(),
+                patchedProduct.getPrice(),
+                patchedProduct.getCategory().getName(),
+                patchedProduct.getImageUrl()
+        );
     }
 }
