@@ -1,12 +1,18 @@
 package com.scaler.productserviceapr21capstone.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class Category
+@Entity
+public class Category extends Base
 {
-    private long id;
-    private String name;
+    @OneToMany(mappedBy = "category")
+    List<Product> products;
 }
