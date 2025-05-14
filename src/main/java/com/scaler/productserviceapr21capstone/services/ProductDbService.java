@@ -3,6 +3,8 @@ package com.scaler.productserviceapr21capstone.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.scaler.productserviceapr21capstone.dtos.ProductProjection;
+import com.scaler.productserviceapr21capstone.dtos.ProductProjectionDto;
 import com.scaler.productserviceapr21capstone.exceptions.ProductNotFoundException;
 import com.scaler.productserviceapr21capstone.models.Category;
 import com.scaler.productserviceapr21capstone.models.Product;
