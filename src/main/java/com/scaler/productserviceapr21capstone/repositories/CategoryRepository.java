@@ -14,7 +14,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>
 
     Category save(Category category);
 
-    @EntityGraph(attributePaths = {"products"})
+//    @EntityGraph(attributePaths = {"products"})
     List<Category> findAll();
 
     @Query("select c from Category c join fetch c.products")
