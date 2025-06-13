@@ -4,6 +4,8 @@ import com.scaler.productserviceapr21capstone.dtos.ProductProjection;
 import com.scaler.productserviceapr21capstone.dtos.ProductProjectionDto;
 import com.scaler.productserviceapr21capstone.models.Category;
 import com.scaler.productserviceapr21capstone.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -38,6 +40,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>
 
     @Query("select new com.scaler.productserviceapr21capstone.dtos.ProductProjectionDto(p.name, p. price) from Product p where p.category.name = :categoryName")
     List<ProductProjectionDto> getProjectedProductDto(@Param("categoryName") String categoryName);
+
+    Page<Product> findByNameContaining(String query, Pageable pageable);
 }
 
 

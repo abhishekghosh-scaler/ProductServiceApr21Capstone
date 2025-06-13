@@ -1,5 +1,6 @@
 package com.scaler.productserviceapr21capstone.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,6 @@ public class Category extends Base implements Serializable
 {
     @OneToMany(mappedBy = "category")
     @Fetch(FetchMode.SUBSELECT)
+    @JsonIgnore
     List<Product> products;
 }
