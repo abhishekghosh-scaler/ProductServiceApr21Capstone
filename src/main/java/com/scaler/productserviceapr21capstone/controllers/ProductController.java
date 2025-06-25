@@ -3,6 +3,7 @@ package com.scaler.productserviceapr21capstone.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
+import com.scaler.productserviceapr21capstone.commons.ApplicationCommons;
 import com.scaler.productserviceapr21capstone.dtos.CreateFakeStoreProductRequestDto;
 import com.scaler.productserviceapr21capstone.dtos.ErrorDto;
 import com.scaler.productserviceapr21capstone.dtos.ProductResponseDto;
@@ -22,17 +23,26 @@ import java.util.stream.Collectors;
 public class ProductController
 {
     ProductService productService;
+    ApplicationCommons applicationCommons;
 
     public ProductController(
-            @Qualifier("fakeStoreProductService") ProductService productService
+            @Qualifier("fakeStoreProductService") ProductService productService,
+            ApplicationCommons applicationCommons
     )
     {
         this.productService = productService;
+        this.applicationCommons = applicationCommons;
     }
 
     @GetMapping("/products/{id}")
-    public ProductResponseDto getProductById(@PathVariable("id") long id)
-            throws ProductNotFoundException {
+    public ProductResponseDto getProductById(@PathVariable("id") long id,
+                                             @RequestHeader("Authorization") String token)
+            throws ProductNotFoundException
+    {
+
+        // Validate Token
+        applicationCommons.validateToken(token);
+
         Product product = productService.getProductById(id);
 
         return ProductResponseDto.from(product);

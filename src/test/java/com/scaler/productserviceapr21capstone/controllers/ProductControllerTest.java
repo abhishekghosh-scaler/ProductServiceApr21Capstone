@@ -42,7 +42,7 @@ class ProductControllerTest
 
         when(productService.getProductById(1L)).thenReturn(dummyProduct);
 
-        ProductResponseDto productResponseDto = productController.getProductById(1L);
+        ProductResponseDto productResponseDto = productController.getProductById(1L,"");
 
         assertEquals(1L, productResponseDto.getId());
         assertEquals("Product 1", productResponseDto.getName());
@@ -56,7 +56,7 @@ class ProductControllerTest
     public void testGetProductByIdReturnsNull() throws ProductNotFoundException
     {
         when(productService.getProductById(1L)).thenReturn(null);
-        ProductResponseDto productResponseDto = productController.getProductById(1L);
+        ProductResponseDto productResponseDto = productController.getProductById(1L,"");
         assertNull(productResponseDto);
     }
 }

@@ -9,6 +9,7 @@ import com.scaler.productserviceapr21capstone.dtos.FakeStoreRequestDto;
 import com.scaler.productserviceapr21capstone.dtos.FakeStoreResponseDto;
 import com.scaler.productserviceapr21capstone.exceptions.ProductNotFoundException;
 import com.scaler.productserviceapr21capstone.models.Product;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class FakeStoreProductService implements ProductService
     RestTemplate restTemplate;
     RedisTemplate<String, Object> redisTemplate;
 
-    public FakeStoreProductService(RestTemplate restTemplate,
+    public FakeStoreProductService(@Qualifier("getRestTemplate") RestTemplate restTemplate,
                                    RedisTemplate<String, Object> redisTemplate)
     {
         this.restTemplate = restTemplate;
